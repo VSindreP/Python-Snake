@@ -23,7 +23,7 @@ class Snake:
         for x,y in self.coordinates:
             square = canvas.create_rectangle(x,y, x + SPACE_SIZE, y + SPACE_SIZE, fill=SNAKE_COLOUR, tag = "snake")
             self.squares.append(square)
-
+#Class for food
 class Food:
     def __init__(self):
         x = random.randint(0, (WIDTH/SPACE_SIZE)-1) * SPACE_SIZE
@@ -33,6 +33,7 @@ class Food:
 
         canvas.create_oval(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill = FOOD_COLOUR, tag = "food")
 
+#Class for deciding the next turn
 def next_turn(snake, food):
     x, y = snake.coordinates[0]
 
@@ -71,6 +72,7 @@ def next_turn(snake, food):
     else: 
         window.after(SPEED, next_turn, snake, food)
 
+#Class for changing direction of the snake
 def change_direction(new_direction):
     global direction
 
@@ -90,6 +92,7 @@ def change_direction(new_direction):
         if direction != "up":
             direction = new_direction
 
+#Class for checking if snake has crashed
 def check_collisions(snake):
     x,y = snake.coordinates[0]
 
@@ -103,6 +106,7 @@ def check_collisions(snake):
             return True
     return False
 
+#Class for restarting game
 def restart_game():
     global score, direction, snake, food
     score = 0
@@ -114,6 +118,7 @@ def restart_game():
     next_turn(snake, food)
     btn_restart.place_forget()
 
+#Class for when the snake has crashed
 def game_over():
     canvas.delete(ALL)
     canvas.create_text(canvas.winfo_width()/2,
