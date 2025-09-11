@@ -9,6 +9,8 @@ SNAKE_COLOUR = "WHITE"
 FOOD_COLOUR = "BLUE"
 BACKGROUND_COLOUR = "BLACK"
 
+direction_changed = False
+
 #class for designing snake
 class Snake: 
 
@@ -35,6 +37,9 @@ class Food:
 
 #Class for deciding the next turn
 def next_turn(snake, food):
+    global direction_changed
+    direction_changed = False
+    
     x, y = snake.coordinates[0]
 
     if direction == "up":
@@ -75,22 +80,30 @@ def next_turn(snake, food):
 #Class for changing direction of the snake
 def change_direction(new_direction):
     global direction
+    global direction_changed
+
+    if direction_changed:
+        return
 
     if new_direction == "left":
         if direction != "right":
             direction = new_direction
+            direction_changed = True
 
     elif new_direction == "right":
         if direction != "left":
             direction = new_direction
+            direction_changed = True
 
     elif new_direction == "up":
         if direction != "down":
             direction = new_direction
-    
+            direction_changed = True
+
     elif new_direction == "down":
         if direction != "up":
             direction = new_direction
+            direction_changed = True
 
 #Class for checking if snake has crashed
 def check_collisions(snake):
@@ -117,6 +130,7 @@ def restart_game():
     food = Food()
     next_turn(snake, food)
     btn_restart.place_forget()
+    btn_quit.place_forget()
 
 #Class for when the snake has crashed
 def game_over():
@@ -126,8 +140,8 @@ def game_over():
                        font = ("consolas", 70),
                        text = "GAME OVER", fill = "red",
                        tag = "gameover")
-    btn_restart.place(relx = 0.5, rely = 0.8, anchor = "se")
-    btn_quit.place(relx = 0.5, rely = 0.8, anchor = "sw")
+    btn_restart.place(relx = 0.4, rely = 0.8, anchor = "se")
+    btn_quit.place(relx = 0.6, rely = 0.8, anchor = "sw")
 
 window = Tk()
 window.title("Welcome to Snake")
